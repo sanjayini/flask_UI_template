@@ -30,6 +30,21 @@ def result():
     return render_template('index.html', result = {'1' : '2'})
 
 
+@app.route('/', methods=['GET','POST'])
+def index():
+    if (request.method == 'GET') :
+        return render_template('index.html')
+    data = request.form.get('content')
+    print(data)
+    res = get_sentiment_analysis(data)
+    # res = make_response(json.dumps(res, ensure_ascii=False))
+    # res.headers["Content-Type"] = "application/json; charset=utf-8"
+    print(res.get('highlighted_content'))
+    return render_template('index.html', result=res.get('highlighted_content'))
+
+
+
+
 #----------------------------------------------------------------------------#
 # Launch.
 #----------------------------------------------------------------------------#
